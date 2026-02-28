@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  vc-control:
+    build:
+      context: ../vc-control
+      dockerfile: Dockerfile
+    container_name: rustpvc-vc-control
+    restart: unless-stopped
+    ports:
+      - "8766:8766"
+    expose:
+      - "8765"
+    environment:
+      - OXIDE_TOKEN=${OXIDE_TOKEN}
+      - SHARED_SECRET=${SHARED_SECRET}
+      - OXIDE_PORT=8765
+      - CLIENT_PORT=8766
+      - SESSION_TTL=14400
+      - STATE_TIMEOUT=5.0
+      - POS_THRESHOLD=0.1
+      - ANGLE_THRESHOLD=1.0
+      - SSL_CERT=/certs/server.crt
+      - SSL_KEY=/certs/server.key
+    volumes:
+      - ../mumble/ssl:/certs:ro
+    networks:
+      - rustpvc-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8765/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  mumble:
+    build:
+      context: ../mumble
+      dockerfile: Dockerfile
+    container_name: rustpvc-mumble
+    restart: unless-stopped
+    ports:
+      - "64738:64738/tcp"
+      - "64738:64738/udp"
+    volumes:
+      - ../mumble/murmur.ini:/etc/mumble-server/mumble-server.ini:ro
+      - ../mumble/ssl:/etc/mumble-server/ssl:ro
+      - mumble-data:/var/lib/mumble-server
+    networks:
+      - rustpvc-net
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 64738 || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  rustpvc-net:
+    driver: bridge
+
+volumes:
+  mumble-data:

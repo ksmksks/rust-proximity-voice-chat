@@ -34,9 +34,11 @@ TestResults/
 docker/data/
 docker/logs/
 
-# Mumble / Murmur データ
+# Mumble / Murmur データ・SSL証明書（シークレット）
 mumble/data/
 mumble/logs/
+mumble/ssl/server.crt
+mumble/ssl/server.key
 
 # IDE
 .vscode/settings.json

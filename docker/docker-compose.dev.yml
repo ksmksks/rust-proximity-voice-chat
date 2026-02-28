@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  vc-control:
+    extends:
+      file: docker-compose.yml
+      service: vc-control
+    # 開発時は 8765 も外部公開（Oxide Plugin から直接接続できるように）
+    ports:
+      - "8765:8765"
+      - "8766:8766"
+    volumes:
+      - ../vc-control:/app
+      - ../mumble/ssl:/certs:ro
+    environment:
+      - DEBUG=1
+
+  mumble:
+    extends:
+      file: docker-compose.yml
+      service: mumble
