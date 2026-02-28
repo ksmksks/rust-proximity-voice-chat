@@ -1,0 +1,54 @@
+# 環境変数・シークレット（絶対にコミットしない）
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# C# / .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.DotSettings.user
+*.nupkg
+packages/
+TestResults/
+
+# Docker
+docker/data/
+docker/logs/
+
+# Mumble / Murmur データ
+mumble/data/
+mumble/logs/
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ログ
+*.log
+logs/
