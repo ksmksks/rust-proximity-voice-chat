@@ -19,3 +19,11 @@ services:
     extends:
       file: docker-compose.yml
       service: mumble
+
+# extends はネットワーク定義を引き継がないため明示的に定義する
+networks:
+  rustpvc-net:
+    driver: bridge
+
+volumes:
+  mumble-data:

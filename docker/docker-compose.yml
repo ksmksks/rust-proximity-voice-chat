@@ -41,10 +41,13 @@ services:
     ports:
       - "64738:64738/tcp"
       - "64738:64738/udp"
+    environment:
+      # murmur.ini を MUMBLE_CUSTOM_CONFIG_FILE で読み込む
+      - MUMBLE_CUSTOM_CONFIG_FILE=/data/mumble-server.ini
     volumes:
-      - ../mumble/murmur.ini:/etc/mumble-server/mumble-server.ini:ro
-      - ../mumble/ssl:/etc/mumble-server/ssl:ro
-      - mumble-data:/var/lib/mumble-server
+      - ../mumble/murmur.ini:/data/mumble-server.ini:ro
+      - ../mumble/ssl:/data/ssl:ro
+      - mumble-data:/data
     networks:
       - rustpvc-net
     healthcheck:
